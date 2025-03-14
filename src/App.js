@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import './App.css';
 import Dice from './components/Dice';
+import YambSheet from './components/yambSheet'; // Importiraj novu komponentu
+
 
 function App() {
   const [numberOfDice, setNumberOfDice] = useState(6);
   const [diceValues, setDiceValues] = useState(Array(6).fill(1));
+  const [roundResults, setRoundResults] = useState([]); // State za pohranu rezultata
+  const [numberOfRolls, setNumberOfRolls] = useState(0); // Broj bacanja u trenutnoj rundi
 
   // Funkcija za promjenu broja kockica putem toggle-a
   const handleToggleChange = (event) => {
@@ -15,7 +19,15 @@ function App() {
 
   // Funkcija za bacanje kockica (random value)
   const rollDice = () => {
-    setDiceValues(diceValues.map(() => Math.floor(Math.random() * 6) + 1));
+    if (numberOfRolls < 3) {
+      setDiceValues(diceValues.map(() => Math.floor(Math.random() * 6) + 1));
+      setNumberOfRolls(numberOfRolls + 1); // Povećaj broj bacanja
+    }
+  };
+
+   // Funkcija za spremanje rezultata
+   const updateRoundResult = (result) => {
+    setRoundResults([...roundResults, result]);
   };
 
   return (
